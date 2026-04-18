@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriFlow | Интеллектуальное питание для подростков 12-20 лет</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Памятка по здоровому питанию для подростков. Калькулятор БЖУ, хронопитание, нутриенты для продуктивности и концентрации.">
+    <meta name="keywords" content="питание подростков, БЖУ, здоровое питание, продуктивность, хронопитание, биохакинг, nutrition, teens">
+    <meta name="author" content="NutriFlow">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:title" content="NutriFlow | Интеллектуальное питание">
+    <meta property="og:description" content="Полное руководство по питанию для подростков 12-20 лет">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nutriflow.github.io">
+    
+    <!-- Yandex Verification (замени на свой код при добавлении в Вебмастер) -->
+    <!-- <meta name="yandex-verification" content="код-подтверждения"> -->
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --neon-blue: #00d4ff;
+            --neon-purple: #b829dd;
+            --neon-green: #00ff88;
+            --dark-bg: #0a0a0f;
+            --card-bg: rgba(255, 255, 255, 0.03);
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        
+        .slide {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px 30px;
+            position: relative;
+            background: radial-gradient(ellipse at top, #1a1a2e 0%, var(--dark-bg) 100%);
+        }
+        
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                linear-gradient(90deg, transparent 49%, rgba(0, 212, 255, 0.03) 50%, transparent 51%),
+                linear-gradient(0deg, transparent 49%, rgba(0, 212, 255, 0.03) 50%, transparent 51%);
+            background-size: 50px 50px;
+            pointer-events: none;
+        }
+        
+        .content-box {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 60px;
+            max-width: 1000px;
+            width: 100%;
+            position: relative;
+            z-index: 10;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+        
+        .content-box::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+            border-radius: 24px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .content-box:hover::before {
+            opacity: 0.3;
+        }
+        
+        h1 {
+            font-size: 4em;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+        
+        h2 {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-green));
+            margin: 20px auto 0;
+            border-radius: 2px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            font-size: 1.3em;
+            color: #888;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+        
+        .tag {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--neon-blue);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            margin: 5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neon-blue), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .stat-number {
+            font-size: 3em;
+            font-weight: 800;
+            color: var(--neon-blue);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stat-label {
+            color: #888;
+            margin-top: 10px;
+            font-size: 0.95em;
+        }
+        
+        .macro-calculator {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .input-field {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px 20px;
+            color: #fff;
+            font-size: 1.1em;
+            width: 150px;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.3s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.2);
+        }
+        
+        .macro-result {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .macro-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            border-left: 4px solid;
+        }
+        
+        .macro-item.protein { border-color: #ff6b6b; }
+        .macro-item.fats { border-color: #ffd93d; }
+        .macro-item.carbs { border-color: #6bcf7f; }
+        
+        .macro-value {
+            font-size: 2.5em;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 10px 0;
+        }
+        
+        .macro-item.protein .macro-value { color: #ff6b6b; }
+        .macro-item.fats .macro-value { color: #ffd93d; }
+        .macro-item.carbs .macro-value { color: #6bcf7f; }
+        
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple), var(--neon-green));
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .timeline-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(10px);
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 30px;
+            width: 12px;
+            height: 12px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+        
+        .time-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--neon-blue);
+            padding: 5px 12px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+        
+        .timeline-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+        
+        .timeline-desc {
+            color: #888;
+            line-height: 1.6;
+        }
+        
+        .productivity-matrix {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .matrix-cell {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .matrix-cell:hover {
+            transform: scale(1.02);
+        }
+        
+        .matrix-cell.energy {
+            border-color: rgba(255, 107, 107, 0.3);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.05), transparent);
+        }
+        
+        .matrix-cell.focus {
+            border-color: rgba(0, 212, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), transparent);
+        }
+        
+        .matrix-cell.recovery {
+            border-color: rgba(0, 255, 136, 0.3);
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05), transparent);
+        }
+        
+        .matrix-cell.mood {
+            border-color: rgba(184, 41, 221, 0.3);
+            background: linear-gradient(135deg, rgba(184, 41, 221, 0.05), transparent);
+        }
+        
+        .matrix-icon {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .matrix-title {
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+        
+        .matrix-list {
+            list-style: none;
+            color: #aaa;
+        }
+        
+        .matrix-list li {
+            padding: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .matrix-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--neon-blue);
+        }
+        
+        .interactive-btn {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            color: #000;
+            border: none;
+            padding: 18px 40px;
+            font-size: 1.1em;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+            margin: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .interactive-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s;
+        }
+        
+        .interactive-btn:hover::before {
+            left: 100%;
+        }
+        
+        .interactive-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.3);
+        }
+        
+        .interactive-btn.secondary {
+            background: transparent;
+            border: 2px solid var(--neon-blue);
+            color: var(--neon-blue);
+        }
+        
+        .interactive-btn.secondary:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+        
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 25px;
+            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            color: #e0e0e0;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quiz-option:hover {
+            border-color: var(--neon-blue);
+            background: rgba(0, 212, 255, 0.05);
+            padding-left: 35px;
+        }
+        
+        .quiz-option.correct {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.1);
+        }
+        
+        .quiz-option.wrong {
+            border-color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
+        }
+        
+        .habit-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+        
+        .habit-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .habit-card:hover {
+            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .habit-card.active {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        
+        .habit-checkbox {
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        
+        .habit-card.active .habit-checkbox {
+            background: var(--neon-green);
+            border-color: var(--neon-green);
+            color: #000;
+        }
+        
+        .habit-info h4 {
+            color: #fff;
+            margin-bottom: 5px;
+            font-size: 1.1em;
+        }
+        
+        .habit-info p {
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        .progress-ring {
+            width: 200px;
+            height: 200px;
+            margin: 40px auto;
+            position: relative;
+        }
+        
+        .progress-ring svg {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-bg {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.05);
+            stroke-width: 8;
+        }
+        
+        .progress-ring-fill {
+            fill: none;
+            stroke: url(#gradient);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 565;
+            stroke-dashoffset: 565;
+            transition: stroke-dashoffset 1s ease;
+        }
+        
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 3em;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--neon-blue);
+        }
+        
+        .nav-dots {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 100;
+        }
+        
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .dot::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .dot.active {
+            background: var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+        }
+        
+        .dot.active::before {
+            border-color: var(--neon-blue);
+        }
+        
+        .warning-box {
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        
+        .warning-icon {
+            font-size: 2em;
+            flex-shrink: 0;
+        }
+        
+        .warning-content h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .warning-content p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+        
+        .tip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .tip-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--neon-purple);
+        }
+        
+        .tip-number {
+            font-size: 3em;
+            font-weight: 800;
+            color: rgba(0, 212, 255, 0.2);
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 15px;
+        }
+        
+        .tip-title {
+            font-size: 1.3em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+        
+        .tip-text {
+            color: #888;
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 1.8em; }
+            .content-box { padding: 30px 20px; }
+            .macro-result { grid-template-columns: 1fr; }
+            .productivity-matrix { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <svg width="0" height="0">
+        <defs>
+            <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#00d4ff" />
+                <stop offset="100%" stop-color="#00ff88" />
+            </linearGradient>
+        </defs>
+    </svg>
+    
+    <div class="nav-dots">
+        <div class="dot active" onclick="scrollToSlide(0)"></div>
+        <div class="dot" onclick="scrollToSlide(1)"></div>
+        <div class="dot" onclick="scrollToSlide(2)"></div>
+        <div class="dot" onclick="scrollToSlide(3)"></div>
+        <div class="dot" onclick="scrollToSlide(4)"></div>
+        <div class="dot" onclick="scrollToSlide(5)"></div>
+        <div class="dot" onclick="scrollToSlide(6)"></div>
+    </div>
+
+    <section class="slide">
+        <div class="content-box">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <span class="tag">#биохакинг</span>
+                <span class="tag">#продуктивность</span>
+                <span class="tag">#здоровье</span>
+            </div>
+            <h1>NutriFlow</h1>
+            <p class="subtitle">Интеллектуальное питание для максимальной продуктивности<br>в учёбе, спорте и жизни</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card" onclick="animateValue(this)">
+                    <div class="stat-number" data-target="80">0</div>
+                    <div class="stat-label">% успеха зависит от питания</div>
+                </div>
+                <div class="stat-card" onclick="animateValue(this)">
+                    <div class="stat-number" data-target="20">0</div>
+                    <div class="stat-label">% калорий на мозг в покое</div>
+                </div>
+                <div class="stat-card" onclick="animateValue(this)">
+                    <div class="stat-number" data-target="3">0</div>
+                    <div class="stat-label">литра воды в день минимум</div>
+                </div>
+                <div class="stat-card" onclick="animateValue(this)">
+                    <div class="stat-number" data-target="7">0</div>
+                    <div class="stat-label">часов сна для восстановления</div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <button class="interactive-btn" onclick="scrollToSlide(1)">Начать оптимизацию →</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="content-box">
+            <h2>Калькулятор БЖУ</h2>
+            <p class="subtitle">Рассчитай свои макронутриенты для текущей цели</p>
+            
+            <div class="macro-calculator">
+                <div class="input-group">
+                    <input type="number" class="input-field" id="weight" placeholder="Вес (кг)" onchange="calculateMacros()">
+                    <input type="number" class="input-field" id="height" placeholder="Рост (см)" onchange="calculateMacros()">
+                    <input type="number" class="input-field" id="age" placeholder="Возраст" onchange="calculateMacros()">
+                    <select class="input-field" id="goal" onchange="calculateMacros()" style="width: 200px;">
+                        <option value="maintain">Поддержание</option>
+                        <option value="lose">Похудение</option>
+                        <option value="gain">Набор массы</option>
+                    </select>
+                </div>
+                
+                <div class="macro-result" id="macroResult" style="display: none;">
+                    <div class="macro-item protein">
+                        <div>Белки</div>
+                        <div class="macro-value" id="proteinValue">0г</div>
+                        <div style="color: #888; font-size: 0.9em;">Рост мышц, сытость</div>
+                    </div>
+                    <div class="macro-item fats">
+                        <div>Жиры</div>
+                        <div class="macro-value" id="fatsValue">0г</div>
+                        <div style="color: #888; font-size: 0.9em;">Гормоны, энергия</div>
+                    </div>
+                    <div class="macro-item carbs">
+                        <div>Углеводы</div>
+                        <div class="macro-value" id="carbsValue">0г</div>
+                        <div style="color: #888; font-size: 0.9em;">Мозг, тренировки</div>
+                    </div>
+                </div>
+                
+                <div id="caloriesDisplay" style="text-align: center; margin-top: 30px; font-size: 1.5em; color: var(--neon-blue); font-family: 'JetBrains Mono', monospace;"></div>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-icon">⚠️</div>
+                <div class="warning-content">
+                    <h3>Важно для подростков</h3>
+                    <p>В 12-20 лет организм активно растёт. Никакие жёсткие диеты! Минимальный дефицит — 10-15%, избыток — не более 15-20%. Приоритет: белок + качественные жиры для гормонов.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="content-box">
+            <h2>Хронопитание: Еда по часам</h2>
+            <p class="subtitle">Синхронизируй приёмы пищи с биоритмами для максимальной эффективности</p>
+            
+            <div class="timeline">
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <span class="time-badge">07:00 — 08:00</span>
+                    <div class="timeline-title">Завтрак: Запуск метаболизма</div>
+                    <div class="timeline-desc">
+                        Белок + сложные углеводы. Овсянка с яйцами, творог с фруктами. 
+                        <strong style="color: var(--neon-blue); display: block; margin-top: 10px;">→ Улучшает концентрацию на 4-5 часов</strong>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <span class="time-badge">10:00 — 11:00</span>
+                    <div class="timeline-title">Перекус: Поддержка мозга</div>
+                    <div class="timeline-desc">
+                        Орехи, тёмный шоколад (70%+), ягоды. Омега-3 и антиоксиданты.
+                        <strong style="color: var(--neon-blue); display: block; margin-top: 10px;">→ Пик когнитивных функций</strong>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <span class="time-badge">13:00 — 14:00</span>
+                    <div class="timeline-title">Обед: Энергия для тренировок</div>
+                    <div class="timeline-desc">
+                        Сложные углеводы (гречка, рис) + нежирное мясо/рыба + овощи.
+                        <strong style="color: var(--neon-blue); display: block; margin-top: 10px;">→ 40% дневных калорий</strong>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <span class="time-badge">16:00 — 17:00</span>
+                    <div class="timeline-title">Перекус: Восстановление</div>
+                    <div class="timeline-desc">
+                        Протеиновый коктейль или творог. Если тренировка — за 1 час до неё.
+                        <strong style="color: var(--neon-blue); display: block; margin-top: 10px;">→ Предотвращает катаболизм</strong>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" onclick="toggleTimeline(this)">
+                    <span class="time-badge">19:00 — 20:00</span>
+                    <div class="timeline-title">Ужин: Восстановление и сон</div>
+                    <div class="timeline-desc">
+                        Легкий белок (рыба, курица) + овощи. Минимум углеводов.
+                        <strong style="color: var(--neon-blue); display: block; margin-top: 10px;">→ Мелатонин и ростовой гормон</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="content-box">
+            <h2>Нутриенты для продуктивности</h2>
+            <p class="subtitle">Что конкретно есть для фокуса, энергии и настроения</p>
+            
+            <div class="productivity-matrix">
+                <div class="matrix-cell energy" onclick="highlightCell(this)">
+                    <div class="matrix-icon">⚡</div>
+                    <div class="matrix-title">Энергия без скачков</div>
+                    <ul class="matrix-list">
+                        <li>Сложные углеводы (овсянка, гречка)</li>
+                        <li>Железо (печень, красное мясо, шпинат)</li>
+                        <li>Коэнзим Q10 (рыба, курица)</li>
+                        <li>Избегай: сахар, энергетики</li>
+                    </ul>
+                </div>
+                
+                <div class="matrix-cell focus" onclick="highlightCell(this)">
+                    <div class="matrix-icon">🎯</div>
+                    <div class="matrix-title">Концентрация</div>
+                    <ul class="matrix-list">
+                        <li>Омега-3 (рыба, семена чиа)</li>
+                        <li>Холин (яйца, брокколи)</li>
+                        <li>Флавоноиды (тёмный шоколад)</li>
+                        <li>Кофеин (до 200мг/день)</li>
+                    </ul>
+                </div>
+                
+                <div class="matrix-cell recovery" onclick="highlightCell(this)">
+                    <div class="matrix-icon">🛡️</div>
+                    <div class="matrix-title">Восстановление</div>
+                    <ul class="matrix-list">
+                        <li>Протеин (1.6-2г на кг веса)</li>
+                        <li>Магний (орехи, какао)</li>
+                        <li>Витамин D (рыба, яйца, солнце)</li>
+                        <li>Цинк (мясо, семечки)</li>
+                    </ul>
+                </div>
+                
+                <div class="matrix-cell mood" onclick="highlightCell(this)">
+                    <div class="matrix-icon">🧠</div>
+                    <div class="matrix-title">Настроение</div>
+                    <ul class="matrix-list">
+                        <li>Триптофан (индейка, бананы)</li>
+                        <li>Витамин B12 (мясо, яйца)</li>
+                        <li>Пробиотики (кефир, квашеная капуста)</li>
+                        <li>Фолиевая кислота (авокадо, шпинат)</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-icon">💊</div>
+                <div class="warning-content">
+                    <h3>Добавки: только если нужно</h3>
+                    <p>Витамин D3 (зимой), Омега-3 (если мало рыбы), Магний (при стрессе). Перед приёмом любых добавок — консультация с врачом.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="content-box">
+            <h2>Чек-лист: Оптимальный день</h2>
+            <p class="subtitle">Отмечай выполненное и следи за прогрессом</p>
+            
+            <div class="habit-tracker" id="habitTracker">
+                <div class="habit-card" onclick="toggleHabit(this)">
+                    <div class="habit-checkbox">✓</div>
+                    <div class="habit-info">
+                        <h4>Гидратация</h4>
+                        <p>Выпил 2.5-3 литра воды</p>
+                    </div>
+                </div>
+                
+                <div class="habit-card" onclick="toggleHabit(this)">
+                    <div class="habit-checkbox">✓</div>
+                    <div class="habit-info">
+                        <h4>Белковый завтрак</h4>
+                        <p>30г+ белка до 9:00</p>
+                    </div>
+                </div>
+                
+                <div class="habit-card" onclick="toggleHabit(this)">
+                    <div class="habit-checkbox">✓</div>
+                    <div class="habit-info">
+                        <h4>Овощи</h4>
+                        <p>5 порций разных цветов</p>
+                    </div>
+                </div>
+                
+                <div class="habit-card" onclick="toggleHabit(this)">
+                    <div class="habit-checkbox">✓</div>
+                    <div class="habit-info">
+                        <h4>Без переработки</h4>
+                        <p>Никакого фастфуда и газировки</p>
+                    </div>
+                </div>
+                
+                <div class="habit-card" onclick="toggleHabit(this)">
+                    <div class="habit-checkbox">✓</div>
+                    <div class="habit-info">
+                        <h4>Последний приём</h4>
+                        <p>Не позже 3 часов до сна</p>
+                    </div>
+                </div>
+                
+                <div class="habit-card" onclick="toggleHabit(this)">
+                    <div class="habit-checkbox">✓</div>
+                    <div class="habit-info">
+                        <h4>Сон</h4>
+                        <p>7-9 часов качественного сна</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="progress-ring">
+                <svg width="200" height="200">
+                    <circle class="progress-ring-bg" cx="100" cy="100" r="90"></circle>
+                    <circle class="progress-ring-fill" id="progressCircle" cx="100" cy="100" r="90"></circle>
+                </svg>
+                <div class="progress-text" id="progressPercent">0%</div>
+            </div>
+            
+            <p style="text-align: center; color: #888; margin-top: 20px;" id="progressText">Начни отмечать привычки выше</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="content-box">
+            <h2>Мифы vs Реальность</h2>
+            <p class="subtitle">Проверь свои знания о питании подростков</p>
+            
+            <div id="quiz">
+                <div class="question" style="font-size: 1.2em; margin-bottom: 25px; color: #fff;">
+                    1. Что лучше для энергии перед экзаменом?
+                </div>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 1)">
+                    Энергетик и шоколадный батончик — быстрый заряд
+                </button>
+                <button class="quiz-option" onclick="checkAnswer(this, true, 1)">
+                    Овсянка с орехами и ягодами — стабильная энергия на 4 часа
+                </button>
+                <button class="quiz-option" onclick="checkAnswer(this, false, 1)">
+                    Ничего не есть — так кровь идёт к мозгу, а не к желудку
+                </button>
+                
+                <div id="next-question" style="display: none; margin-top: 40px;">
+                    <div class="question" style="font-size: 1.2em; margin-bottom: 25px; color: #fff;">
+                        2. Сколько белка нужно подростку 16 лет?
+                    </div>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                        0.8г на кг веса (как взрослому)
+                    </button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 2)">
+                        1.6-2.2г на кг веса (рост + активность)
+                    </button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 2)">
+                        Белок вреден для почек, лучше меньше
+                    </button>
+                </div>
+                
+                <div id="next-question-2" style="display: none; margin-top: 40px;">
+                    <div class="question" style="font-size: 1.2em; margin-bottom: 25px; color: #fff;">
+                        3. Когда лучше есть углеводы?
+                    </div>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                        После 18:00 нельзя — превратятся в жир
+                    </button>
+                    <button class="quiz-option" onclick="checkAnswer(this, true, 3)">
+                        До тренировки и до обеда, вечером — минимум
+                    </button>
+                    <button class="quiz-option" onclick="checkAnswer(this, false, 3)">
+                        Только утром, днём и вечером — белок
+                    </button>
+                </div>
+                
+                <div id="quiz-result" style="display: none; margin-top: 40px; text-align: center;">
+                    <div style="font-size: 4em; margin-bottom: 20px;">🧬</div>
+                    <h3 style="color: var(--neon-green); font-size: 1.8em; margin-bottom: 15px;">Уровень: Биохакер</h3>
+                    <p style="color: #888; font-size: 1.1em; line-height: 1.6;">
+                        Ты разбираешься в нутриентах лучше 90% сверстников. 
+                        Применяй знания — и результаты не заставят ждать.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="slide">
+        <div class="content-box" style="text-align: center;">
+            <h2 style="margin-bottom: 20px;">5 правил на старте</h2>
+            
+            <div class="tip-grid">
+                <div class="tip-card">
+                    <div class="tip-number">01</div>
+                    <div class="tip-title">Не пропускай завтрак</div>
+                    <div class="tip-text">Съешь 30г белка в первый час после пробуждения — запусти метаболизм и предотврати распад мышц.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-number">02</div>
+                    <div class="tip-title">Читмил — ок, но по правилам</div>
+                    <div class="tip-text">Раз в неделю можно съесть что угодно. Но: не вечером, не на голодный желудок, и не компенсируй голодом.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-number">03</div>
+                    <div class="tip-title">Готовь на 2 дня</div>
+                    <div class="tip-text">Мясо + гарнир + овощи в контейнерах. Экономит время и исключает импульсивный фастфуд.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-number">04</div>
+                    <div class="tip-title">Сон > Тренировка > Диета</div>
+                    <div class="tip-text">При 5 часах сна никакое питание не спасёт. Приоритет: качественный сон, потом спорт, потом еда.</div>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-number">05</div>
+                    <div class="tip-title">Слушай организм</div>
+                    <div class="tip-text">Голод — есть. Тяга к сладкому — возможно, не хватает сна. Переедание — часто жажда, попей воды.</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 50px; padding: 30px; background: rgba(0, 212, 255, 0.05); border-radius: 16px; border: 1px solid rgba(0, 212, 255, 0.2);">
+                <p style="font-size: 1.3em; color: #fff; margin-bottom: 15px; font-style: italic;">
+                    "Ты — это то, что ты ешь. Но также ты — это то, что ты можешь усвоить, переварить и использовать."
+                </p>
+                <p style="color: #888;">Начни с малого. Один привычный завтрак лучше идеального плана, который не выполняется.</p>
+            </div>
+            
+            <button class="interactive-btn" onclick="window.print()" style="margin-top: 40px;">
+                Сохранить памятку 📱
+            </button>
+        </div>
+    </section>
+
+    <script>
+        // Навигация
+        function scrollToSlide(index) {
+            const slides = document.querySelectorAll('.slide');
+            slides[index].scrollIntoView({ behavior: 'smooth' });
+            updateDots(index);
+        }
+        
+        function updateDots(index) {
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = Array.from(document.querySelectorAll('.slide')).indexOf(entry.target);
+                    updateDots(index);
+                    
+                    // Анимация чисел на первом слайде
+                    if (index === 0) {
+                        document.querySelectorAll('.stat-number').forEach(el => {
+                            animateValue(el);
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        document.querySelectorAll('.slide').forEach(slide => observer.observe(slide));
+        
+        // Анимация чисел
+        function animateValue(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+        
+        // Калькулятор БЖУ
+        function calculateMacros() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const age = parseFloat(document.getElementById('age').value);
+            const goal = document.getElementById('goal').value;
+            
+            if (!weight || !height || !age) return;
+            
+            // Формула Миффлина-Сан Жеора для подростков (активность 1.4-1.6)
+            let bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            let tdee = bmr * 1.55; // Умеренная активность
+            
+            if (goal === 'lose') tdee *= 0.85;
+            if (goal === 'gain') tdee *= 1.15;
+            
+            const protein = weight * 1.8; // Для подростков чуть больше
+            const fats = weight * 1;
+            const carbs = (tdee - (protein * 4 + fats * 9)) / 4;
+            
+            document.getElementById('macroResult').style.display = 'grid';
+            document.getElementById('proteinValue').textContent = Math.round(protein) + 'г';
+            document.getElementById('fatsValue').textContent = Math.round(fats) + 'г';
+            document.getElementById('carbsValue').textContent = Math.round(carbs) + 'г';
+            document.getElementById('caloriesDisplay').textContent = '≈ ' + Math.round(tdee) + ' ккал/день';
+        }
+        
+        // Таймлайн
+        function toggleTimeline(item) {
+            item.style.background = item.style.background === 'rgba(0, 212, 255, 0.05)' ? 'rgba(255, 255, 255, 0.02)' : 'rgba(0, 212, 255, 0.05)';
+        }
+        
+        // Матрица продуктивности
+        function highlightCell(cell) {
+            cell.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                cell.style.transform = 'scale(1)';
+            }, 300);
+        }
+        
+        // Трекер привычек
+        let habitsCompleted = 0;
+        function toggleHabit(card) {
+            card.classList.toggle('active');
+            habitsCompleted = document.querySelectorAll('.habit-card.active').length;
+            updateProgress();
+        }
+        
+        function updateProgress() {
+            const percent = Math.round((habitsCompleted / 6) * 100);
+            const circle = document.getElementById('progressCircle');
+            const radius = 90;
+            const circumference = 2 * Math.PI * radius;
+            const offset = circumference - (percent / 100) * circumference;
+            
+            circle.style.strokeDashoffset = offset;
+            document.getElementById('progressPercent').textContent = percent + '%';
+            
+            const texts = [
+                'Начни отмечать привычки выше',
+                'Хорошее начало! Продолжай →',
+                'Уже треть дня! 💪',
+                'Половина выполнена!',
+                'Отличный результат!',
+                'Почти идеально!',
+                'Идеальный день! 🏆'
+            ];
+            document.getElementById('progressText').textContent = texts[habitsCompleted];
+            
+            if (percent === 100) {
+                document.getElementById('progressPercent').style.color = 'var(--neon-green)';
+            }
+        }
+        
+        // Викторина
+        let quizScore = 0;
+        function checkAnswer(btn, isCorrect, questionNum) {
+            const parent = btn.parentElement;
+            const options = parent.querySelectorAll('.quiz-option');
+            options.forEach(opt => opt.disabled = true);
+            
+            if (isCorrect) {
+                btn.classList.add('correct');
+                quizScore++;
+                setTimeout(() => {
+                    if (questionNum === 1) {
+                        document.getElementById('next-question').style.display = 'block';
+                        document.getElementById('next-question').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    } else if (questionNum === 2) {
+                        document.getElementById('next-question-2').style.display = 'block';
+                        document.getElementById('next-question-2').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    } else if (questionNum === 3) {
+                        document.getElementById('quiz-result').style.display = 'block';
+                        document.getElementById('quiz-result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }, 800);
+            } else {
+                btn.classList.add('wrong');
+            }
+        }
+    </script>
+</body>
+</html>
